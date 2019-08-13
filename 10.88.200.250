@@ -1,0 +1,443 @@
+
+Building configuration...
+
+Current configuration : 10669 bytes
+!
+! Last configuration change at 15:46:16 GMT Mon May 6 2019 by rfadmin
+! NVRAM config last updated at 15:46:16 GMT Mon May 6 2019 by rfadmin
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime localtime
+no service password-encryption
+!
+hostname SHA-SW-K012960L007
+!
+boot-start-marker
+boot-end-marker
+!
+enable password admin
+!
+username rfadmin privilege 15 secret 5 $1$KQ.K$hbu4dmSMhZPEaheFFIcpc0
+no aaa new-model
+clock timezone GMT 8 0
+switch 1 provision ws-c2960x-48ts-l
+!
+!
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-3691273216
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3691273216
+ revocation-check none
+ rsakeypair TP-self-signed-3691273216
+!
+!
+crypto pki certificate chain TP-self-signed-3691273216
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 33363931 32373332 3136301E 170D3137 30343038 31303332 
+  35395A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 36393132 
+  37333231 3630819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100A631 B6AF334F BFDBEBD2 EA856EEA 74F81081 F74E9DFD AD7A261B 27C4D3AF 
+  325E506C A745D7DA CAB01E3C 7AEAD6E0 79544FD2 43F39076 48A4B046 F2133FD6 
+  AFC6D801 E556930B 2E88046B C95661AD 6726DC99 75B59D1A C30E5255 79F967FA 
+  79558F7F 52F6DAF5 1F70EB08 28DD86E2 B79FD6A9 27E28743 AD19335B DB842825 
+  ABC10203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 14531797 D63F9E4A F82F660B 30453857 50D35BA0 33301D06 
+  03551D0E 04160414 531797D6 3F9E4AF8 2F660B30 45385750 D35BA033 300D0609 
+  2A864886 F70D0101 05050003 8181001A A886A44D 42F1CA60 7F2AADDF A65F2F75 
+  61EE46A4 2512307B B8BA9DDD 6B948DDC A0DA80FE 2DA681D5 671F2E18 430ED985 
+  E9560563 5BA97F33 DC33E565 97EEF2FE E66504CE 66CCE979 C54C6BFF 031AF972 
+  6BEE96A6 CA879C53 48D15E35 D1DBE0AE 342A65FE D934275A 50D2D814 48452CEC 
+  C8487381 609476D7 45717E0E F3AEAE
+  	quit
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ description connect_to_9#Cisco_200.253
+ switchport mode trunk
+!
+interface Port-channel2
+ switchport mode trunk
+!
+interface FastEthernet0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/0/1
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/2
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/3
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/4
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/5
+ switchport trunk native vlan 200
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/6
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/7
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/8
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/9
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/10
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/11
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/12
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/13
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/14
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/15
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/16
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/17
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/18
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/19
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/20
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/21
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/22
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/23
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/24
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/25
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/26
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/27
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/28
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/29
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/30
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/31
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/32
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/33
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/34
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/35
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/36
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/37
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/38
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/39
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/40
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/41
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/42
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/43
+ description con  BE server
+ switchport access vlan 200
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/44
+ switchport mode trunk
+ channel-group 2 mode on
+!
+interface GigabitEthernet1/0/45
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/46
+ switchport mode trunk
+ channel-group 2 mode on
+!
+interface GigabitEthernet1/0/47
+ switchport access vlan 200
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/48
+ switchport access vlan 5
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/49
+!
+interface GigabitEthernet1/0/50
+!
+interface GigabitEthernet1/0/51
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet1/0/52
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan5
+ ip address 192.168.1.251 255.255.255.0
+!
+interface Vlan10
+ no ip address
+!
+interface Vlan11
+ no ip address
+!
+interface Vlan20
+ no ip address
+!
+interface Vlan21
+ no ip address
+!
+interface Vlan30
+ no ip address
+!
+interface Vlan36
+ no ip address
+!
+interface Vlan40
+ no ip address
+!
+interface Vlan41
+ no ip address
+!
+interface Vlan50
+ no ip address
+!
+interface Vlan200
+ ip address 10.88.200.250 255.255.255.0
+!
+ip default-gateway 10.88.200.254
+ip http server
+ip http secure-server
+!
+!
+logging trap errors
+logging facility local1
+logging source-interface Vlan200
+logging host 192.168.50.226
+!
+snmp-server community public RO
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps transceiver all
+snmp-server enable traps call-home message-send-fail server-fail
+snmp-server enable traps tty
+snmp-server enable traps license
+snmp-server enable traps auth-framework sec-violation
+snmp-server enable traps cluster
+snmp-server enable traps config-copy
+snmp-server enable traps config
+snmp-server enable traps config-ctid
+snmp-server enable traps trustsec-sxp conn-srcaddr-err msg-parse-err conn-config-err binding-err conn-up conn-down binding-expn-fail oper-nodeid-change binding-conflict
+snmp-server enable traps energywise
+snmp-server enable traps fru-ctrl
+snmp-server enable traps entity
+snmp-server enable traps event-manager
+snmp-server enable traps ike policy add
+snmp-server enable traps ike policy delete
+snmp-server enable traps ike tunnel start
+snmp-server enable traps ike tunnel stop
+snmp-server enable traps ipsec cryptomap add
+snmp-server enable traps ipsec cryptomap delete
+snmp-server enable traps ipsec cryptomap attach
+snmp-server enable traps ipsec cryptomap detach
+snmp-server enable traps ipsec tunnel start
+snmp-server enable traps ipsec tunnel stop
+snmp-server enable traps ipsec too-many-sas
+snmp-server enable traps power-ethernet police
+snmp-server enable traps cpu threshold
+snmp-server enable traps vstack
+snmp-server enable traps bridge newroot topologychange
+snmp-server enable traps stpx inconsistency root-inconsistency loop-inconsistency
+snmp-server enable traps syslog
+snmp-server enable traps vtp
+snmp-server enable traps vlancreate
+snmp-server enable traps vlandelete
+snmp-server enable traps flash insertion removal
+snmp-server enable traps port-security
+snmp-server enable traps envmon fan shutdown supply temperature status
+snmp-server enable traps stackwise
+snmp-server enable traps bulkstat collection transfer
+snmp-server enable traps errdisable
+snmp-server enable traps mac-notification change move threshold
+snmp-server enable traps vlan-membership
+!
+!
+line con 0
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login
+!
+ntp server 192.168.50.254
+end

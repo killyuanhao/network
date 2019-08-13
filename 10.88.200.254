@@ -1,0 +1,997 @@
+
+Building configuration...
+
+Current configuration : 26544 bytes
+!
+! Last configuration change at 12:36:27 UTC Thu Jul 18 2019 by rfadmin
+! NVRAM config last updated at 11:35:27 UTC Tue Jun 25 2019 by rfadmin
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime localtime
+no service password-encryption
+service compress-config
+!
+hostname SHA-SW-K013650C001
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-vrf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+enable password admin
+!
+username rfadmin privilege 15 secret 5 $1$ZcXA$6wNF5qmkjBwSRtBTtZcAb/
+no aaa new-model
+clock timezone UTC 8 0
+switch 1 provision ws-c3650-24ts
+switch 2 provision ws-c3650-24ts
+!
+!
+!
+!
+!
+ip routing
+!
+ip name-server 192.168.50.213
+!
+ip dhcp pool AP
+ network 192.168.1.0 255.255.255.0
+ default-router 192.168.1.254 
+ option 43 hex f108.0a58.c814
+!
+ip dhcp pool 200
+ network 10.88.200.0 255.255.255.0
+ default-router 192.168.200.254 
+!
+!
+qos queue-softmax-multiplier 100
+!
+flow record NFSENrecord-input
+ match ipv4 tos
+ match ipv4 protocol
+ match ipv4 source address
+ match ipv4 destination address
+ match transport source-port
+ match transport destination-port
+ match interface input
+ match flow direction
+ collect transport tcp flags
+ collect interface output
+ collect counter bytes long
+ collect counter packets long
+ collect timestamp absolute first
+ collect timestamp absolute last
+!
+!
+flow record NFSENrecord-output
+ match ipv4 tos
+ match ipv4 protocol
+ match ipv4 source address
+ match ipv4 destination address
+ match transport source-port
+ match transport destination-port
+ match interface output
+ match flow direction
+ collect transport tcp flags
+ collect interface input
+ collect counter bytes long
+ collect counter packets long
+ collect timestamp absolute first
+ collect timestamp absolute last
+!
+!
+flow record PRTG-input
+ match ipv4 tos
+ match ipv4 protocol
+ match ipv4 source address
+ match ipv4 destination address
+ match transport source-port
+ match transport destination-port
+ match interface input
+ match flow direction
+ collect transport tcp flags
+ collect interface output
+ collect counter bytes long
+ collect counter packets long
+ collect timestamp absolute first
+ collect timestamp absolute last
+!
+!
+flow record PRTG-output
+ match ipv4 tos
+ match ipv4 protocol
+ match ipv4 source address
+ match ipv4 destination address
+ match transport source-port
+ match transport destination-port
+ match interface output
+ match flow direction
+ collect transport tcp flags
+ collect interface input
+ collect counter bytes long
+ collect counter packets long
+ collect timestamp absolute first
+ collect timestamp absolute last
+!
+!
+flow exporter NFSENexporter
+ destination 192.168.50.101
+ transport udp 2055
+ template data timeout 60
+ option application-table timeout 60
+!
+!
+flow exporter PRTG
+ destination 192.168.50.36
+ source Vlan200
+ transport udp 2055
+ template data timeout 60
+ option application-table timeout 60
+!
+!
+flow exporter PRTG1
+ destination 192.168.50.36
+ source Vlan200
+ transport udp 2056
+ template data timeout 60
+ option application-table timeout 60
+!
+!
+flow exporter PRTG3
+ destination 192.168.50.36
+ source Vlan200
+ transport udp 2058
+ template data timeout 60
+ option application-table timeout 60
+!
+!
+flow exporter PRTG4
+ destination 192.168.50.36
+ source Vlan200
+ transport udp 2059
+ template data timeout 60
+ option application-table timeout 60
+!
+!
+flow exporter PRTG5
+ destination 192.168.50.36
+ source Vlan200
+ transport udp 2060
+ template data timeout 60
+ option application-table timeout 60
+!
+!
+flow exporter PRTG_test_input
+ destination 192.168.50.36
+ source Vlan200
+ transport udp 2062
+ template data timeout 60
+ option application-table timeout 60
+!
+!
+flow exporter PRTG_test_output
+ destination 192.168.50.36
+ source Vlan200
+ transport udp 2063
+ template data timeout 60
+ option application-table timeout 60
+!
+!
+flow exporter PRTG_INTERNET_input
+ destination 192.168.50.36
+ source Vlan200
+ transport udp 2064
+ template data timeout 60
+ option application-table timeout 60
+!
+!
+flow exporter PRTG_INTERNET_output
+ destination 192.168.50.36
+ source Vlan200
+ transport udp 2065
+ template data timeout 60
+ option application-table timeout 60
+!
+!
+flow exporter PRTG_K04_input
+ destination 192.168.50.36
+ source Vlan200
+ transport udp 2056
+ template data timeout 60
+ option application-table timeout 60
+!
+!
+flow exporter PRTG_K04_output
+ destination 192.168.50.36
+ source Vlan200
+ transport udp 2061
+ template data timeout 60
+ option application-table timeout 60
+!
+!
+flow monitor NFSENmonitor-input
+ exporter NFSENexporter
+ cache timeout active 60
+ record NFSENrecord-input
+!
+!
+flow monitor NFSENmonitor-output
+ exporter NFSENexporter
+ cache timeout active 60
+ record NFSENrecord-output
+!
+!
+flow monitor PRTG-input
+ exporter PRTG
+ cache timeout active 60
+ record PRTG-input
+!
+!
+flow monitor PRTG-output
+ exporter PRTG
+ cache timeout active 60
+ record PRTG-output
+!
+!
+flow monitor PRTG1-input
+ exporter PRTG1
+ cache timeout active 60
+ record PRTG-input
+!
+!
+flow monitor PRTG1-output
+ exporter PRTG1
+ cache timeout active 60
+ record PRTG-output
+!
+!
+flow monitor PRTG3-input
+ exporter PRTG3
+ cache timeout active 60
+ record PRTG-input
+!
+!
+flow monitor PRTG3-output
+ exporter PRTG3
+ cache timeout active 60
+ record PRTG-output
+!
+!
+flow monitor PRTG4-iput
+ exporter PRTG4
+ cache timeout active 60
+ record PRTG-input
+!
+!
+flow monitor PRTG4-output
+ exporter PRTG4
+ cache timeout active 60
+ record PRTG-output
+!
+!
+flow monitor PRTG5-input
+ exporter PRTG5
+ cache timeout active 60
+ record PRTG-input
+!
+!
+flow monitor PRTG5-output
+ exporter PRTG5
+ cache timeout active 60
+ record PRTG-output
+!
+!
+flow monitor PRTG-test-input
+ exporter PRTG_test_input
+ cache timeout active 60
+ record PRTG-input
+!
+!
+flow monitor PRTG-test-output
+ exporter PRTG_test_output
+ cache timeout active 60
+ record PRTG-output
+!
+!
+flow monitor PRTG_INTERNET_input
+ exporter PRTG_INTERNET_input
+ cache timeout active 60
+ record PRTG-input
+!
+!
+flow monitor PRTG_INTERNET_output
+ exporter PRTG_INTERNET_output
+ cache timeout active 60
+ record PRTG-output
+!
+!
+flow monitor PRTG_K04_input
+ exporter PRTG_K04_input
+ cache timeout active 60
+ record PRTG-input
+!
+!
+flow monitor PRTG_K04_output
+ exporter PRTG_K04_output
+ cache timeout active 60
+ record PRTG-output
+!
+!
+crypto pki trustpoint TP-self-signed-1704552672
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1704552672
+ revocation-check none
+ rsakeypair TP-self-signed-1704552672
+!
+!
+crypto pki certificate chain TP-self-signed-1704552672
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31373034 35353236 3732301E 170D3137 30343135 30373535 
+  35305A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 37303435 
+  35323637 3230819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100BD15 13B87DD0 3620C82B 5236DE54 98AB911D 2CB8768F 49D268C5 6B3F7929 
+  7A8462BE A3EB3420 751B376B F623E8F1 0B5F4E9A CE99EDA0 688C66DB 31C3A44A 
+  2C3F9E9C 919AC2C0 83583A41 B84EB144 E9F291C2 AA51D3BE F29462B6 0C5A1488 
+  D5BD67EA C5D0DA30 E893D9DA 5EE2DE33 14A0E9EE B307FE15 DEE53869 861DBDBC 
+  AE130203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 1407F801 30A96E92 4F7DA5AC 005356A3 AF036ABF 38301D06 
+  03551D0E 04160414 07F80130 A96E924F 7DA5AC00 5356A3AF 036ABF38 300D0609 
+  2A864886 F70D0101 05050003 818100A6 B4200A21 8A7309BF 5AA66D9B 0C959817 
+  334A86A6 95A410A5 B21AB4C4 A485F82E B653DC91 A29BFA8E AFEA4145 6247DC26 
+  CD78A1E5 5D0867A1 BF25F983 4A35C666 7AF9809D 7EF35C75 0AC12D5B 4F5C9E26 
+  569683B7 E8EDF48E EADD3035 BEA38892 376D708D F087746B 06F0189F E3911DD0 
+  725ECF63 3C52EC1B 26C48CAC 7ADABC
+  	quit
+diagnostic bootup level minimal
+spanning-tree mode pvst
+spanning-tree extend system-id
+hw-switch switch 1 logging onboard message level 3
+hw-switch switch 2 logging onboard message level 3
+!
+redundancy
+ mode sso
+!
+!
+!
+class-map match-any non-client-nrt-class
+!
+policy-map port_child_policy
+ class non-client-nrt-class
+  bandwidth remaining ratio 10
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ description To_SHA-SW-K012960L007
+ switchport mode trunk
+!
+interface Port-channel2
+ switchport access vlan 200
+ switchport mode access
+!
+interface Port-channel3
+ switchport access vlan 200
+ switchport mode access
+!
+interface GigabitEthernet0/0
+ vrf forwarding Mgmt-vrf
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet1/0/1
+ switchport access vlan 10
+ switchport trunk allowed vlan 5,10,11,20,21,200
+ switchport mode access
+!
+interface GigabitEthernet1/0/2
+ description foreScout test to VM
+!
+interface GigabitEthernet1/0/3
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/4
+ description 9#1F-qiantai
+ switchport access vlan 20
+ switchport mode access
+!
+interface GigabitEthernet1/0/5
+ switchport access vlan 5
+ switchport trunk native vlan 200
+ switchport mode access
+!
+interface GigabitEthernet1/0/6
+ description dizhigang-ipphone
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/7
+ description connect-NAS-10.251
+ switchport access vlan 10
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/8
+ description connect-NAS-20.251
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/9
+ description Shijihulian
+ no switchport
+ ip flow monitor PRTG-input input
+ ip flow monitor PRTG-output output
+ ip address 10.11.1.1 255.255.255.0
+!
+interface GigabitEthernet1/0/10
+!
+interface GigabitEthernet1/0/11
+ description TO K04 Yunfu
+ no switchport
+ ip flow monitor PRTG_K04_input input
+ ip flow monitor PRTG_K04_output output
+ ip address 10.11.2.1 255.255.255.0
+!
+interface GigabitEthernet1/0/12
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/13
+ description ReWifi device 10.88.200.251
+ switchport access vlan 200
+ switchport mode access
+ ip flow monitor PRTG-test-input input
+ ip flow monitor PRTG-test-output output
+!
+interface GigabitEthernet1/0/14
+ description TO Yunliang
+ switchport access vlan 113
+ switchport mode access
+!
+interface GigabitEthernet1/0/15
+ description connect-vsphere
+ switchport access vlan 20
+ switchport mode access
+!
+interface GigabitEthernet1/0/16
+ switchport access vlan 50
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/17
+ switchport access vlan 50
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/18
+ switchport access vlan 50
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/19
+ switchport access vlan 50
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/20
+ description vsphere_252
+ switchport access vlan 50
+ switchport mode access
+ ip flow monitor PRTG4-iput input
+ ip flow monitor PRTG4-output output
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/21
+ switchport access vlan 10
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/22
+ description vsphere_253
+ switchport access vlan 50
+ switchport mode access
+ ip flow monitor PRTG5-input input
+ ip flow monitor PRTG5-output output
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/23
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/24
+ description TO Internet
+ switchport access vlan 200
+ switchport mode access
+ ip flow monitor PRTG_INTERNET_input input
+ ip flow monitor PRTG_INTERNET_output output
+ spanning-tree portfast
+!
+interface GigabitEthernet1/1/1
+ description To_SHA-SW-K012960L007_Gi1/0/52
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet1/1/2
+ description To_SHA-SW-K012960L006_Gi0/2
+ switchport mode trunk
+!
+interface GigabitEthernet1/1/3
+!
+interface GigabitEthernet1/1/4
+!
+interface GigabitEthernet2/0/1
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/2
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/3
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/4
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/5
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/6
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/7
+ description To_SHA-SW-K012960L008_G0/48
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/8
+ switchport access vlan 200
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/9
+ description DLP-test
+ switchport access vlan 50
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/10
+ description sangfor-sslvpn
+ switchport access vlan 50
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/11
+ description test
+ no switchport
+ ip address 20.1.1.2 255.255.255.0
+!
+interface GigabitEthernet2/0/12
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/13
+ description Alicould
+ no switchport
+ ip flow monitor PRTG3-input input
+ ip flow monitor PRTG3-output output
+ ip address 10.11.10.1 255.255.255.252
+!
+interface GigabitEthernet2/0/14
+ switchport access vlan 20
+ switchport mode access
+!
+interface GigabitEthernet2/0/15
+ switchport access vlan 50
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/16
+ switchport access vlan 50
+ switchport mode access
+!
+interface GigabitEthernet2/0/17
+ switchport access vlan 50
+ switchport mode access
+!
+interface GigabitEthernet2/0/18
+ switchport access vlan 50
+ switchport mode access
+!
+interface GigabitEthernet2/0/19
+ switchport access vlan 50
+ switchport mode access
+!
+interface GigabitEthernet2/0/20
+ switchport access vlan 50
+ switchport mode access
+!
+interface GigabitEthernet2/0/21
+ switchport access vlan 50
+ switchport mode access
+!
+interface GigabitEthernet2/0/22
+ switchport access vlan 50
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet2/0/23
+ switchport access vlan 10
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/24
+ switchport access vlan 200
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet2/1/1
+ description To_SHA-SW-K012960L007_Gi1/0/51
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet2/1/2
+!
+interface GigabitEthernet2/1/3
+!
+interface GigabitEthernet2/1/4
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan5
+ ip address 192.168.1.254 255.255.255.0
+!
+interface Vlan10
+ ip address 10.88.10.254 255.255.255.0
+ ip helper-address 192.168.50.250
+!
+interface Vlan11
+ ip address 10.88.11.254 255.255.255.0
+ ip helper-address 192.168.50.250
+!
+interface Vlan20
+ ip address 10.88.20.254 255.255.255.0
+ ip helper-address 192.168.50.250
+!
+interface Vlan21
+ ip address 10.88.21.254 255.255.255.0
+ ip access-group guest_21_acl in
+ ip access-group guest_21 out
+ ip helper-address 192.168.50.250
+!
+interface Vlan22
+ no ip address
+ ip helper-address 192.168.50.250
+!
+interface Vlan30
+ ip address 10.88.30.254 255.255.255.0
+ ip helper-address 192.168.50.250
+ ip policy route-map global-internet
+!
+interface Vlan50
+ ip address 192.168.50.254 255.255.255.0
+ ip access-group vlan50 out
+!
+interface Vlan60
+ description netaccess
+ ip address 172.168.60.1 255.255.255.0
+!
+interface Vlan70
+ description NO_Internet
+ ip address 10.88.70.254 255.255.255.0
+!
+interface Vlan113
+ description YL
+ ip address 10.11.3.1 255.255.255.0
+!
+interface Vlan150
+ no ip address
+!
+interface Vlan200
+ ip address 10.88.200.254 255.255.255.0
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.88.200.253
+ip route 2.0.1.0 255.255.255.0 192.168.50.120
+ip route 10.85.0.0 255.255.0.0 10.88.200.253
+ip route 10.89.10.0 255.255.255.0 10.11.2.2
+ip route 10.89.11.0 255.255.255.0 10.11.2.2
+ip route 10.89.30.0 255.255.255.0 10.11.2.2
+ip route 10.89.60.0 255.255.255.0 10.11.2.2
+ip route 10.89.90.0 255.255.255.0 10.11.2.2
+ip route 10.89.100.0 255.255.255.0 10.88.100.253
+ip route 10.89.100.0 255.255.255.0 10.11.2.2
+ip route 10.89.110.0 255.255.255.0 10.11.2.2
+ip route 58.247.85.219 255.255.255.255 20.1.1.1
+ip route 100.118.102.0 255.255.255.0 10.11.10.2
+ip route 172.19.0.0 255.255.0.0 10.11.10.2
+ip route 192.168.2.0 255.255.255.0 10.11.1.2
+ip route 192.168.8.0 255.255.255.0 10.11.3.2
+ip route 192.168.60.0 255.255.255.0 10.11.1.2
+!
+ip access-list extended dlp
+ deny   ip host 10.88.20.104 any
+ deny   ip host 10.88.20.105 any
+ deny   ip 10.88.11.0 0.0.0.255 192.168.50.0 0.0.0.255
+ deny   ip 10.88.20.0 0.0.0.255 192.168.50.0 0.0.0.255
+ deny   ip 10.88.10.0 0.0.0.255 192.168.50.0 0.0.0.255
+ deny   ip 10.88.11.0 0.0.0.255 10.88.200.0 0.0.0.255
+ deny   ip 10.88.20.0 0.0.0.255 10.88.200.0 0.0.0.255
+ deny   ip 10.88.10.0 0.0.0.255 10.88.200.0 0.0.0.255
+ deny   ip 10.88.11.0 0.0.0.255 192.168.60.0 0.0.0.255
+ deny   ip 10.88.20.0 0.0.0.255 192.168.60.0 0.0.0.255
+ deny   ip 10.88.10.0 0.0.0.255 192.168.60.0 0.0.0.255
+ permit tcp host 10.88.20.5 any eq www
+ permit tcp host 10.88.20.5 any eq 443
+ permit tcp host 10.88.20.5 any eq ftp
+ permit tcp host 10.88.20.5 any eq smtp
+ permit tcp host 10.88.11.128 any eq www
+ permit tcp host 10.88.11.128 any eq 443
+ permit tcp host 10.88.11.128 any eq ftp
+ permit tcp host 10.88.11.128 any eq smtp
+ permit tcp 10.88.10.0 0.0.0.255 any eq www
+ permit tcp 10.88.11.0 0.0.0.255 any eq www
+ permit tcp 10.88.20.0 0.0.0.255 any eq www
+ permit tcp 10.88.10.0 0.0.0.255 any eq 443
+ permit tcp 10.88.11.0 0.0.0.255 any eq 443
+ permit tcp 10.88.20.0 0.0.0.255 any eq 443
+ permit tcp 10.88.10.0 0.0.0.255 any eq ftp
+ permit tcp 10.88.11.0 0.0.0.255 any eq ftp
+ permit tcp 10.88.20.0 0.0.0.255 any eq ftp
+ permit tcp 10.88.10.0 0.0.0.255 any eq smtp
+ permit tcp 10.88.11.0 0.0.0.255 any eq smtp
+ permit tcp 10.88.20.0 0.0.0.255 any eq smtp
+ permit tcp host 10.88.21.0 any eq www
+ permit tcp host 10.88.21.0 any eq 443
+ permit tcp host 10.88.21.0 any eq ftp
+ permit tcp host 10.88.21.0 any eq smtp
+ip access-list extended dlp2
+ deny   ip host 10.88.11.115 any
+ deny   ip host 10.88.11.140 any
+ deny   ip host 10.88.10.15 any
+ deny   ip 10.88.11.0 0.0.0.255 192.168.50.0 0.0.0.255
+ deny   ip 10.88.20.0 0.0.0.255 192.168.50.0 0.0.0.255
+ deny   ip 10.88.10.0 0.0.0.255 192.168.50.0 0.0.0.255
+ deny   ip 10.88.11.0 0.0.0.255 10.88.200.0 0.0.0.255
+ deny   ip 10.88.20.0 0.0.0.255 10.88.200.0 0.0.0.255
+ deny   ip 10.88.10.0 0.0.0.255 10.88.200.0 0.0.0.255
+ deny   ip 10.88.11.0 0.0.0.255 192.168.60.0 0.0.0.255
+ deny   ip 10.88.20.0 0.0.0.255 192.168.60.0 0.0.0.255
+ deny   ip 10.88.10.0 0.0.0.255 192.168.60.0 0.0.0.255
+ deny   ip 10.88.21.0 0.0.0.255 192.168.50.0 0.0.0.255
+ permit tcp 10.88.10.0 0.0.0.255 any eq www
+ permit tcp 10.88.11.0 0.0.0.255 any eq www
+ permit tcp 10.88.20.0 0.0.0.255 any eq www
+ permit tcp 10.88.10.0 0.0.0.255 any eq 443
+ permit tcp 10.88.11.0 0.0.0.255 any eq 443
+ permit tcp 10.88.20.0 0.0.0.255 any eq 443
+ permit tcp 10.88.10.0 0.0.0.255 any eq ftp
+ permit tcp 10.88.11.0 0.0.0.255 any eq ftp
+ permit tcp 10.88.20.0 0.0.0.255 any eq ftp
+ permit tcp host 10.88.21.169 any eq www
+ permit tcp host 10.88.21.169 any eq 443
+ permit tcp host 10.88.21.169 any eq ftp
+ip access-list extended global-internet
+ deny   ip 10.88.30.0 0.0.0.255 192.168.50.0 0.0.0.255
+ permit ip 10.88.30.0 0.0.0.255 any
+ip access-list extended guest_11
+ permit ip host 192.168.50.250 10.88.11.0 0.0.0.255 log
+ deny   ip 10.0.0.0 0.255.255.255 10.88.11.0 0.0.0.255 log
+ deny   ip 192.168.0.0 0.0.255.255 10.88.11.0 0.0.0.255 log
+ permit ip any any log
+ip access-list extended guest_11_aclin
+ permit ip 10.88.11.0 0.0.0.255 host 192.168.50.250 log
+ deny   ip 10.88.11.0 0.0.0.255 10.0.0.0 0.255.255.255 log
+ deny   ip 10.88.11.0 0.0.0.255 192.168.0.0 0.0.255.255 log
+ permit ip any any log
+ip access-list extended guest_21
+ permit ip any host 10.88.21.147 log
+ permit ip host 192.168.50.136 10.88.21.0 0.0.0.255 log
+ permit ip host 192.168.50.120 10.88.21.0 0.0.0.255 log
+ permit ip host 192.168.50.203 10.88.21.0 0.0.0.255 log
+ permit ip host 192.168.50.202 10.88.21.0 0.0.0.255 log
+ permit ip host 192.168.50.250 10.88.21.0 0.0.0.255 log
+ deny   ip 10.0.0.0 0.255.255.255 10.88.21.0 0.0.0.255 log
+ deny   ip 192.168.0.0 0.0.255.255 10.88.21.0 0.0.0.255 log
+ permit ip any any log
+ip access-list extended guest_21_aclin
+ permit ip 10.88.21.0 0.0.0.255 host 192.168.50.203 log
+ permit ip 10.88.21.0 0.0.0.255 host 192.168.50.250 log
+ deny   ip 10.88.21.0 0.0.0.255 10.0.0.0 0.255.255.255 log
+ deny   ip 10.88.21.0 0.0.0.255 192.168.0.0 0.0.255.255 log
+ permit ip any any log
+ip access-list extended test
+ permit ip host 10.88.20.29 host 120.77.166.199
+ permit ip host 10.88.20.29 host 120.77.166.29
+ permit ip host 10.88.20.36 host 120.77.166.199
+ permit ip host 10.88.20.36 host 120.77.166.29
+ip access-list extended vlan20
+ deny   ip host 10.88.20.249 192.168.50.0 0.0.0.255
+ permit ip host 10.88.20.249 2.0.1.0 0.0.0.255
+ permit ip host 10.88.20.249 172.19.0.0 0.0.255.255
+ deny   ip host 10.88.20.249 any
+ permit ip any any
+ip access-list extended vlan50
+ permit ip 172.19.0.0 0.0.255.255 host 192.168.50.136
+ deny   ip host 10.88.20.249 host 192.168.50.202
+ deny   ip host 10.88.20.249 host 192.168.50.203
+ deny   ip host 10.88.20.249 host 192.168.50.212
+ deny   ip host 10.88.20.249 host 192.168.50.213
+ permit tcp any host 192.168.50.60 eq 3389
+ deny   ip any host 192.168.50.60
+ permit ip any any
+!
+logging trap errors
+logging facility local1
+logging source-interface Vlan200
+logging host 192.168.50.226
+!
+route-map test permit 10
+ match ip address test
+ set ip next-hop 20.1.1.1
+!
+route-map global-internet permit 10
+ match ip address global-internet
+ set ip next-hop 10.88.200.251
+!
+route-map dlp2 permit 10
+ match ip address dlp2
+ set ip next-hop 192.168.1.233
+!
+route-map dlp permit 10
+ match ip address dlp
+ set ip next-hop 192.168.50.218
+!
+snmp-server community public RO
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps flowmon
+snmp-server enable traps transceiver all
+snmp-server enable traps call-home message-send-fail server-fail
+snmp-server enable traps rf
+snmp-server enable traps memory
+snmp-server enable traps cpu threshold
+snmp-server enable traps wireless bsnMobileStation bsnAccessPoint bsnRogue bsn80211Security bsnAutoRF bsnGeneral SI mobility mfp RRM AP rogue client
+snmp-server enable traps tty
+snmp-server enable traps eigrp
+snmp-server enable traps ospf state-change
+snmp-server enable traps ospf errors
+snmp-server enable traps ospf retransmit
+snmp-server enable traps ospf lsa
+snmp-server enable traps ospf cisco-specific state-change nssa-trans-change
+snmp-server enable traps ospf cisco-specific state-change shamlink interface
+snmp-server enable traps ospf cisco-specific state-change shamlink neighbor
+snmp-server enable traps ospf cisco-specific errors
+snmp-server enable traps ospf cisco-specific retransmit
+snmp-server enable traps ospf cisco-specific lsa
+snmp-server enable traps auth-framework sec-violation
+snmp-server enable traps flash insertion removal
+snmp-server enable traps power-ethernet police
+snmp-server enable traps energywise
+snmp-server enable traps vtp
+snmp-server enable traps vlancreate
+snmp-server enable traps vlandelete
+snmp-server enable traps license
+snmp-server enable traps envmon fan shutdown supply temperature status
+snmp-server enable traps stackwise
+snmp-server enable traps port-security
+snmp-server enable traps fru-ctrl
+snmp-server enable traps entity
+snmp-server enable traps trustsec-sxp conn-srcaddr-err msg-parse-err conn-config-err binding-err conn-up conn-down binding-expn-fail oper-nodeid-change binding-conflict
+snmp-server enable traps trustsec-server radius-server provision-secret
+snmp-server enable traps trustsec authz-file-error cache-file-error keystore-file-error keystore-sync-fail random-number-fail src-entropy-fail
+snmp-server enable traps trustsec-interface unauthorized sap-fail authc-fail supplicant-fail authz-fail
+snmp-server enable traps trustsec-policy peer-policy-updated authz-sgacl-fail
+snmp-server enable traps cef resource-failure peer-state-change peer-fib-state-change inconsistency
+snmp-server enable traps config-copy
+snmp-server enable traps config
+snmp-server enable traps config-ctid
+snmp-server enable traps event-manager
+snmp-server enable traps hsrp
+snmp-server enable traps ipmulticast
+snmp-server enable traps ospfv3 state-change
+snmp-server enable traps ospfv3 errors
+snmp-server enable traps pim neighbor-change rp-mapping-change invalid-pim-message
+snmp-server enable traps vstack
+snmp-server enable traps bridge newroot topologychange
+snmp-server enable traps stpx inconsistency root-inconsistency loop-inconsistency
+snmp-server enable traps syslog
+snmp-server enable traps ipsla
+snmp-server enable traps ike policy add
+snmp-server enable traps ike policy delete
+snmp-server enable traps ike tunnel start
+snmp-server enable traps ike tunnel stop
+snmp-server enable traps ipsec cryptomap add
+snmp-server enable traps ipsec cryptomap delete
+snmp-server enable traps ipsec cryptomap attach
+snmp-server enable traps ipsec cryptomap detach
+snmp-server enable traps ipsec tunnel start
+snmp-server enable traps ipsec tunnel stop
+snmp-server enable traps ipsec too-many-sas
+snmp-server enable traps errdisable
+snmp-server enable traps mac-notification change move threshold
+snmp-server enable traps vlan-membership
+snmp-server enable traps bulkstat collection transfer
+snmp-server enable traps vrfmib vrf-up vrf-down vnet-trunk-up vnet-trunk-down
+!
+no vstack
+!
+line con 0
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login
+!
+!
+monitor session 1 source interface Gi1/0/9
+monitor session 1 destination interface Gi1/0/10
+monitor session 2 source vlan 10 , 20
+monitor session 2 destination interface Gi1/0/2
+ntp source Vlan20
+ntp master 2
+ntp server 120.25.108.11
+wsma agent exec
+ profile httplistener
+ profile httpslistener
+!
+wsma agent config
+ profile httplistener
+ profile httpslistener
+!
+wsma agent filesys
+ profile httplistener
+ profile httpslistener
+!
+wsma agent notify
+ profile httplistener
+ profile httpslistener
+!
+!
+wsma profile listener httplistener
+ transport http
+!
+wsma profile listener httpslistener
+ transport https
+!
+ap group default-group
+end
